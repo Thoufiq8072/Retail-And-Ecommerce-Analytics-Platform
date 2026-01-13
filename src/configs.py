@@ -1,0 +1,6 @@
+CATALOG_NAME = "retail_analytics"
+RAW_SCHEMA = "raw"
+BRONZE_SCHEMA = "bronze"
+SILVER_SCHEMA = "silver"
+GOLD_SCHEMA = "gold"
+RAW_VOLUME="kaggle"

@@ -1,0 +1,39 @@
+import sys
+sys.path.append("/Workspace/Users/mohammedthoufiq9360@gmail.com/Retail-And-Ecommerce-Analytics-Platform")
+from src.configs import *
+
+# catalog, schema, volumes names are imported from src/configs file 
+
+INGESTION_PATH=f"/Volumes/{CATALOG_NAME}/{RAW_SCHEMA}/{RAW_VOLUME}/global_fashion"
+
+RAW_CUSTOMERS_PATH=f"/Volumes/{CATALOG_NAME}/{RAW_SCHEMA}/{RAW_VOLUME}/global_fashion/customers.csv"
+RAW_DISCOUNTS_PATH=f"/Volumes/{CATALOG_NAME}/{RAW_SCHEMA}/{RAW_VOLUME}/global_fashion/discounts.csv"
+RAW_PRODUCTS_PATH=f"/Volumes/{CATALOG_NAME}/{RAW_SCHEMA}/{RAW_VOLUME}/global_fashion/employees.csv"
+RAW_PRODUCTS_PATH=f"/Volumes/{CATALOG_NAME}/{RAW_SCHEMA}/{RAW_VOLUME}/global_fashion/products.csv"
+RAW_STORES_PATH=f"/Volumes/{CATALOG_NAME}/{RAW_SCHEMA}/{RAW_VOLUME}/global_fashion/stores.csv"
+RAW_TRANSACTIONS_PATH=f"/Volumes/{CATALOG_NAME}/{RAW_SCHEMA}/{RAW_VOLUME}/global_fashion/transactions.csv"
+
+
+BRONZE_CUSTOMERS_PATH=f"{CATALOG_NAME}.{BRONZE_SCHEMA}.customers"
+BRONZE_CUSTOMERS_PATH=f"{CATALOG_NAME}.{BRONZE_SCHEMA}.discounts"
+BRONZE_CUSTOMERS_PATH=f"{CATALOG_NAME}.{BRONZE_SCHEMA}.employees"
+BRONZE_CUSTOMERS_PATH=f"{CATALOG_NAME}.{BRONZE_SCHEMA}.products"
+BRONZE_CUSTOMERS_PATH=f"{CATALOG_NAME}.{BRONZE_SCHEMA}.stores"
+BRONZE_CUSTOMERS_PATH=f"{CATALOG_NAME}.{BRONZE_SCHEMA}.transactions"
+
+
+SILVER_CUSTOMERS_PATH=f"{CATALOG_NAME}.{SILVER_SCHEMA}.customers"
+SILVER_DISCOUNTS_PATH=f"{CATALOG_NAME}.{SILVER_SCHEMA}.discounts"
+SILVER_EMPLOYEES_PATH=f"{CATALOG_NAME}.{SILVER_SCHEMA}.employees"
+SILVER_PRODUCTS_PATH=f"{CATALOG_NAME}.{SILVER_SCHEMA}.products"
+SILVER_STORES_PATH=f"{CATALOG_NAME}.{SILVER_SCHEMA}.stores"
+SILVER_TRANSACTIONS_PATH=f"{CATALOG_NAME}.{SILVER_SCHEMA}.transactions"
+
+
+GOLD_CUSTOMERS_PATH=f"{CATALOG_NAME}.{GOLD_SCHEMA}.dim_customer"
+GOLD_EMPLOYEES_PATH=f"{CATALOG_NAME}.{GOLD_SCHEMA}.dim_employee"
+GOLD_PRODUCTS_PATH=f"{CATALOG_NAME}.{GOLD_SCHEMA}.dim_product"
+GOLD_STORES_PATH=f"{CATALOG_NAME}.{GOLD_SCHEMA}.dim_store"
+GOLD_DATES_PATH=f"{CATALOG_NAME}.{GOLD_SCHEMA}.dim_date"
+GOLD_TRANSACTIONS_PATH=f"{CATALOG_NAME}.{GOLD_SCHEMA}.fact_sales"
+
