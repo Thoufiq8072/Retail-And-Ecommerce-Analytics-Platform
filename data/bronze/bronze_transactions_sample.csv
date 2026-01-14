@@ -1,0 +1,6 @@
+Invoice ID,Line,Customer ID,Product ID,Size,Color,Unit Price,Quantity,Date,Discount,Line Total,Store ID,Employee ID,Currency,Currency Symbol,SKU,Transaction Type,Payment Method,Invoice Total,ingestion_ts,_source_file
+INV-US-001-03558761,1,47162,485,M,null,80.5,1,2023-01-01T15:42:00.000Z,0,80.5,1,7,USD,$,MASU485-M-,Sale,Cash,126.7,2026-01-14T05:54:30.121Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/transactions.csv
+INV-US-001-03558761,2,47162,2779,G,null,31.5,1,2023-01-01T15:42:00.000Z,0.4,18.9,1,7,USD,$,CHCO2779-G-,Sale,Cash,126.7,2026-01-14T05:54:30.121Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/transactions.csv
+INV-US-001-03558761,3,47162,64,M,NEUTRAL,45.5,1,2023-01-01T15:42:00.000Z,0.4,27.3,1,7,USD,$,MACO64-M-NEUTRAL,Sale,Cash,126.7,2026-01-14T05:54:30.121Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/transactions.csv
+INV-US-001-03558762,1,10142,131,M,BLUE,70,1,2023-01-01T20:04:00.000Z,0.4,42,1,6,USD,$,FECO131-M-BLUE,Sale,Cash,77,2026-01-14T05:54:30.121Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/transactions.csv
+INV-US-001-03558762,2,10142,716,L,WHITE,26,1,2023-01-01T20:04:00.000Z,0,26,1,6,USD,$,MAT-716-L-WHITE,Sale,Cash,77,2026-01-14T05:54:30.121Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/transactions.csv

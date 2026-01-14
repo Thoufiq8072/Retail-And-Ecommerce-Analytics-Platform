@@ -1,0 +1,6 @@
+Customer ID,Name,Email,Telephone,City,Country,Gender,Date Of Birth,Job Title,_ingestion_ts,_source_file
+647193,朱秀梅,朱秀梅@fake_yahoo.com,18209127705,成都,中国,F,2004-07-27,null,2026-01-13T18:50:02.241Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/customers.csv
+647194,高春梅,高春梅@fake_gmail.com,18710662213,成都,中国,F,1986-01-09,Surgeon,2026-01-13T18:50:02.241Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/customers.csv
+647195,张波,张波@fake_yahoo.com,18109881346,成都,中国,F,2002-11-25,null,2026-01-13T18:50:02.241Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/customers.csv
+647196,曾云,曾云@fake_yahoo.com,15676814059,成都,中国,M,2002-11-13,null,2026-01-13T18:50:02.241Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/customers.csv
+647197,黄秀兰,黄秀兰@fake_gmail.com,13916904499,成都,中国,M,2005-10-12,null,2026-01-13T18:50:02.241Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/customers.csv

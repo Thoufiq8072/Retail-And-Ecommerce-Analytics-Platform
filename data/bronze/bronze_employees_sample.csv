@@ -1,0 +1,6 @@
+Employee ID,Store ID,Name,Position,_ingestion_ts,_source_file
+1,1,Stephen Johnson,Store Manager,2026-01-13T19:08:41.621Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/employees.csv
+2,1,Rebecca Myers,Assistant Manager,2026-01-13T19:08:41.621Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/employees.csv
+3,1,Katherine Buchanan,Cashier,2026-01-13T19:08:41.621Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/employees.csv
+4,1,Jessica Hicks,Stock Clerk,2026-01-13T19:08:41.621Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/employees.csv
+5,1,Ryan Gross,Sales Associate,2026-01-13T19:08:41.621Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/employees.csv

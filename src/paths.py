@@ -1,5 +1,6 @@
 import sys
-sys.path.append("/Workspace/Users/mohammedthoufiq9360@gmail.com/Retail-And-Ecommerce-Analytics-Platform")
+import os
+sys.path.append(f"/Workspace/Users/mohammedthoufiq9360@gmail.com/Retail-And-Ecommerce-Analytics-Platform")
 from src.configs import *
 
 # catalog, schema, volumes names are imported from src/configs file 
@@ -8,18 +9,18 @@ INGESTION_PATH=f"/Volumes/{CATALOG_NAME}/{RAW_SCHEMA}/{RAW_VOLUME}/global_fashio
 
 RAW_CUSTOMERS_PATH=f"/Volumes/{CATALOG_NAME}/{RAW_SCHEMA}/{RAW_VOLUME}/global_fashion/customers.csv"
 RAW_DISCOUNTS_PATH=f"/Volumes/{CATALOG_NAME}/{RAW_SCHEMA}/{RAW_VOLUME}/global_fashion/discounts.csv"
-RAW_PRODUCTS_PATH=f"/Volumes/{CATALOG_NAME}/{RAW_SCHEMA}/{RAW_VOLUME}/global_fashion/employees.csv"
+RAW_EMPLOYEES_PATH=f"/Volumes/{CATALOG_NAME}/{RAW_SCHEMA}/{RAW_VOLUME}/global_fashion/employees.csv"
 RAW_PRODUCTS_PATH=f"/Volumes/{CATALOG_NAME}/{RAW_SCHEMA}/{RAW_VOLUME}/global_fashion/products.csv"
 RAW_STORES_PATH=f"/Volumes/{CATALOG_NAME}/{RAW_SCHEMA}/{RAW_VOLUME}/global_fashion/stores.csv"
 RAW_TRANSACTIONS_PATH=f"/Volumes/{CATALOG_NAME}/{RAW_SCHEMA}/{RAW_VOLUME}/global_fashion/transactions.csv"
 
 
 BRONZE_CUSTOMERS_PATH=f"{CATALOG_NAME}.{BRONZE_SCHEMA}.customers"
-BRONZE_CUSTOMERS_PATH=f"{CATALOG_NAME}.{BRONZE_SCHEMA}.discounts"
-BRONZE_CUSTOMERS_PATH=f"{CATALOG_NAME}.{BRONZE_SCHEMA}.employees"
-BRONZE_CUSTOMERS_PATH=f"{CATALOG_NAME}.{BRONZE_SCHEMA}.products"
-BRONZE_CUSTOMERS_PATH=f"{CATALOG_NAME}.{BRONZE_SCHEMA}.stores"
-BRONZE_CUSTOMERS_PATH=f"{CATALOG_NAME}.{BRONZE_SCHEMA}.transactions"
+BRONZE_DISCOUNTS_PATH=f"{CATALOG_NAME}.{BRONZE_SCHEMA}.discounts"
+BRONZE_EMPLOYEES_PATH=f"{CATALOG_NAME}.{BRONZE_SCHEMA}.employees"
+BRONZE_PRODUCTS_PATH=f"{CATALOG_NAME}.{BRONZE_SCHEMA}.products"
+BRONZE_STORES_PATH=f"{CATALOG_NAME}.{BRONZE_SCHEMA}.stores"
+BRONZE_TRANSACTIONS_PATH=f"{CATALOG_NAME}.{BRONZE_SCHEMA}.transactions"
 
 
 SILVER_CUSTOMERS_PATH=f"{CATALOG_NAME}.{SILVER_SCHEMA}.customers"
