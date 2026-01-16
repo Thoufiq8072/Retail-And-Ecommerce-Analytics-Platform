@@ -1,0 +1,6 @@
+discount_start_date,discount_end_date,discount,description,category,sub_category,ingestion_ts,_source_file
+2020-01-01,2020-01-10,0.4,40% discount during our New Year Winter Sale,Feminine,Coats and Blazers,2026-01-14T05:41:44.554Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/discounts.csv
+2020-01-01,2020-01-10,0.4,40% discount during our New Year Winter Sale,Feminine,Sweaters and Knitwear,2026-01-14T05:41:44.554Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/discounts.csv
+2020-01-01,2020-01-10,0.4,40% discount during our New Year Winter Sale,Masculine,Coats and Blazers,2026-01-14T05:41:44.554Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/discounts.csv
+2020-01-01,2020-01-10,0.4,40% discount during our New Year Winter Sale,Masculine,Sweaters and Sweatshirts,2026-01-14T05:41:44.554Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/discounts.csv
+2020-01-01,2020-01-10,0.4,40% discount during our New Year Winter Sale,Children,Coats,2026-01-14T05:41:44.554Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/discounts.csv

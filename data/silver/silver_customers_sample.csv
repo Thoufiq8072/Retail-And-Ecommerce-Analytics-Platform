@@ -1,0 +1,6 @@
+customer_id,name,email,telephone,city,country,gender,date_of_birth,job_title,ingestion_ts,_source_file
+1286,Rachel Ruiz,rachel.ruiz@fake_hotmail.com,001-805-963-9429x589,New York,UNITED STATES,Female,1978-10-28,"Sales Professional, It",2026-01-14T05:29:25.815Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/customers.csv
+1808,Mr. Shane Jones,mr..shane.jones@fake_yahoo.com,9567369485,New York,UNITED STATES,Male,1985-02-25,Chartered Management Accountant,2026-01-14T05:29:25.815Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/customers.csv
+2276,Desiree Huynh,desiree.huynh@fake_hotmail.com,267-737-3604x111,New York,UNITED STATES,Female,1983-10-17,Barrister,2026-01-14T05:29:25.815Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/customers.csv
+2708,Diana Harper,diana.harper@fake_yahoo.com,+1-708-560-0827,New York,UNITED STATES,Female,2000-08-27,Warden/ranger,2026-01-14T05:29:25.815Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/customers.csv
+3519,Melissa Williams,melissa.williams@fake_yahoo.com,(364)381-5420x7902,New York,UNITED STATES,Female,2001-05-16,UnKnown,2026-01-14T05:29:25.815Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/customers.csv

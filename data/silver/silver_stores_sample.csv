@@ -1,0 +1,6 @@
+store_id,country,city,store_name,number_of_employees,zip_code,latitude,longitude,ingestion_ts,_source_file
+1,UNITED STATES,New York,Store New York,10,10001,40.7128,-74.006,2026-01-14T05:51:11.556Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/stores.csv
+2,UNITED STATES,Los Angeles,Store Los Angeles,8,90001,34.0522,-118.2437,2026-01-14T05:51:11.556Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/stores.csv
+3,UNITED STATES,Chicago,Store Chicago,9,60601,41.8781,-87.6298,2026-01-14T05:51:11.556Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/stores.csv
+4,UNITED STATES,Houston,Store Houston,10,77001,29.7604,-95.3698,2026-01-14T05:51:11.556Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/stores.csv
+5,UNITED STATES,Phoenix,Store Phoenix,9,85001,33.4484,-112.074,2026-01-14T05:51:11.556Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/stores.csv

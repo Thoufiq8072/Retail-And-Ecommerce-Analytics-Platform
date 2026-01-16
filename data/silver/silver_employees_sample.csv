@@ -1,0 +1,6 @@
+employee_id,store_id,name,position,ingestion_ts,_source_file
+159,13,Rosina Albers,Sales Associate,2026-01-14T05:32:03.286Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/employees.csv
+197,17,Richard Parks,Cashier,2026-01-14T05:32:03.286Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/employees.csv
+362,32,Soraia Batista-maia,Assistant Manager,2026-01-14T05:32:03.286Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/employees.csv
+397,35,Teresa Freitas,Cashier,2026-01-14T05:32:03.286Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/employees.csv
+210,18,Keith Small,Stock Clerk,2026-01-14T05:32:03.286Z,dbfs:/Volumes/retail_analytics/raw/kaggle/global_fashion/employees.csv
