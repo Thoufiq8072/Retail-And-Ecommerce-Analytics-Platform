@@ -1,0 +1,6 @@
+employee_sk,employee_id,store_id,name,position,_created_at,_updated_at
+1,159,13,Rosina Albers,Sales Associate,2026-01-17T13:11:32.398Z,2026-01-17T13:11:32.398Z
+2,197,17,Richard Parks,Cashier,2026-01-17T13:11:32.398Z,2026-01-17T13:11:32.398Z
+3,362,32,Soraia Batista-maia,Assistant Manager,2026-01-17T13:11:32.398Z,2026-01-17T13:11:32.398Z
+4,397,35,Teresa Freitas,Cashier,2026-01-17T13:11:32.398Z,2026-01-17T13:11:32.398Z
+5,210,18,Keith Small,Stock Clerk,2026-01-17T13:11:32.398Z,2026-01-17T13:11:32.398Z

@@ -1,0 +1,6 @@
+discount_sk,discount_start_date,discount_end_date,discount,description,category,sub_category,_created_at,_updated_at
+1,2020-01-01,2020-01-10,0.4,40% discount during our New Year Winter Sale,Feminine,Coats and Blazers,2026-01-17T13:45:37.180Z,2026-01-17T13:45:37.180Z
+2,2020-01-01,2020-01-10,0.4,40% discount during our New Year Winter Sale,Feminine,Sweaters and Knitwear,2026-01-17T13:45:37.180Z,2026-01-17T13:45:37.180Z
+3,2020-01-01,2020-01-10,0.4,40% discount during our New Year Winter Sale,Masculine,Coats and Blazers,2026-01-17T13:45:37.180Z,2026-01-17T13:45:37.180Z
+4,2020-01-01,2020-01-10,0.4,40% discount during our New Year Winter Sale,Masculine,Sweaters and Sweatshirts,2026-01-17T13:45:37.180Z,2026-01-17T13:45:37.180Z
+5,2020-01-01,2020-01-10,0.4,40% discount during our New Year Winter Sale,Children,Coats,2026-01-17T13:45:37.180Z,2026-01-17T13:45:37.180Z

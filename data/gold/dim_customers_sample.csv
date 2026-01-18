@@ -1,0 +1,6 @@
+customer_sk,customer_id,name,email,telephone,city,country,gender,date_of_birth,job_title,_created_at,_updated_at
+1,94,Melissa Porter,melissa.porter@fake_hotmail.com,001-915-876-4475x65903,New York,UNITED STATES,Female,1977-08-23,Geophysicist/field Seismologist,2026-01-17T11:42:27.164Z,2026-01-17T11:42:27.164Z
+2,586,Daniel Gallegos,daniel.gallegos@fake_gmail.com,(609)511-6278x1772,New York,UNITED STATES,Male,2003-04-05,UnKnown,2026-01-17T11:42:27.164Z,2026-01-17T11:42:27.164Z
+3,1230,Catherine Mcmillan,catherine.mcmillan@fake_yahoo.com,372-603-6029,New York,UNITED STATES,Female,1992-09-11,Drilling Engineer,2026-01-17T11:42:27.164Z,2026-01-17T11:42:27.164Z
+4,2060,Kevin White,kevin.white@fake_yahoo.com,+1-267-803-3725x942,New York,UNITED STATES,Male,2004-01-15,UnKnown,2026-01-17T11:42:27.164Z,2026-01-17T11:42:27.164Z
+5,3668,David Brady,david.brady@fake_hotmail.com,(991)949-5547,New York,UNITED STATES,Male,2003-01-27,UnKnown,2026-01-17T11:42:27.164Z,2026-01-17T11:42:27.164Z

@@ -1,0 +1,6 @@
+date_sk,date,day,month,month_name,quarter,year,day_of_week,day_name,is_weekend
+20200101,2020-01-01,1,1,January,1,2020,4,Wednesday,false
+20200102,2020-01-02,2,1,January,1,2020,5,Thursday,false
+20200103,2020-01-03,3,1,January,1,2020,6,Friday,false
+20200104,2020-01-04,4,1,January,1,2020,7,Saturday,true
+20200105,2020-01-05,5,1,January,1,2020,1,Sunday,true
