@@ -1,0 +1,1848 @@
+{
+  "datasets": [
+    {
+      "name": "2daf9cb2",
+      "displayName": "Total number of orders count",
+      "queryLines": [
+        "SELECT\r\n",
+        "  COUNT(DISTINCT invoice_id) AS total_orders\r\n",
+        "FROM fact_sales;"
+      ],
+      "catalog": "retail_analytics",
+      "schema": "gold"
+    },
+    {
+      "name": "3a75c8df",
+      "displayName": "Total Refund Amount",
+      "queryLines": [
+        "SELECT\r\n",
+        "  abs(round(SUM(refund_amount), 2)) AS total_refunds\r\n",
+        "FROM fact_returns;"
+      ],
+      "catalog": "retail_analytics",
+      "schema": "gold"
+    },
+    {
+      "name": "257ee77a",
+      "displayName": "Total Units Sold",
+      "queryLines": [
+        "SELECT\r\n",
+        "  sum(quantity) AS units_sold\r\n",
+        "FROM fact_sales;"
+      ],
+      "catalog": "retail_analytics",
+      "schema": "gold"
+    },
+    {
+      "name": "05f997d8",
+      "displayName": "Total Revenue",
+      "queryLines": [
+        "SELECT\r\n",
+        "  round(SUM(line_total), 2) AS total_revenue\r\n",
+        "FROM fact_sales;"
+      ],
+      "catalog": "retail_analytics",
+      "schema": "gold"
+    },
+    {
+      "name": "f4f7e1e2",
+      "displayName": "Returns rate",
+      "queryLines": [
+        "WITH sold AS (\r\n",
+        "  SELECT SUM(quantity) AS total_sold\r\n",
+        "  FROM fact_sales\r\n",
+        "),\r\n",
+        "returned AS (\r\n",
+        "  SELECT SUM(quantity_returned) AS total_returned\r\n",
+        "  FROM fact_returns\r\n",
+        ")\r\n",
+        "SELECT\r\n",
+        "  concat(ROUND(\r\n",
+        "    returned.total_returned * 100.0 / sold.total_sold,\r\n",
+        "    2\r\n",
+        "  ), \"%\") AS return_rate_pct\r\n",
+        "FROM sold, returned;\r\n"
+      ],
+      "catalog": "retail_analytics",
+      "schema": "gold"
+    },
+    {
+      "name": "10f06928",
+      "displayName": "Monthly Revenue Summary",
+      "queryLines": [
+        "SELECT\r\n",
+        "  d.year,\r\n",
+        "  d.month,\r\n",
+        "  d.month_name,\r\n",
+        "  concat(d.year,' ', d.month_name) AS month_year, \r\n",
+        "  round(SUM(f.line_total), 2) AS revenue\r\n",
+        "FROM fact_sales f\r\n",
+        "JOIN dim_dates d\r\n",
+        "  ON f.date_sk = d.date_sk\r\n",
+        "GROUP BY d.year, d.month, d.month_name\r\n",
+        "ORDER BY d.year, d.month;"
+      ],
+      "catalog": "retail_analytics",
+      "schema": "gold"
+    },
+    {
+      "name": "6c8901bc",
+      "displayName": "Revenue by Category",
+      "queryLines": [
+        "SELECT\r\n",
+        "  p.category,\r\n",
+        "  round(SUM(f.line_total), 2) AS revenue\r\n",
+        "FROM fact_sales f\r\n",
+        "JOIN dim_products p\r\n",
+        "  ON f.product_sk = p.product_sk\r\n",
+        "GROUP BY p.category\r\n",
+        "ORDER BY revenue DESC;"
+      ],
+      "catalog": "retail_analytics",
+      "schema": "gold"
+    },
+    {
+      "name": "f663b833",
+      "displayName": "Revenue by Country",
+      "queryLines": [
+        "SELECT\r\n",
+        "  s.country,\r\n",
+        "  round(SUM(f.line_total), 2) AS revenue\r\n",
+        "FROM fact_sales f\r\n",
+        "JOIN dim_stores s\r\n",
+        "  ON f.store_sk = s.store_sk\r\n",
+        "GROUP BY s.country\r\n",
+        "ORDER BY revenue DESC;"
+      ],
+      "catalog": "retail_analytics",
+      "schema": "gold"
+    },
+    {
+      "name": "15b3e1a1",
+      "displayName": "Monthly Units Sold",
+      "queryLines": [
+        "SELECT\r\n",
+        "  d.year,\r\n",
+        "  d.month,\r\n",
+        "  d.month_name,\r\n",
+        "  concat(d.year,' ', d.month_name) AS month_year, \r\n",
+        "  SUM(f.quantity) AS units_sold\r\n",
+        "FROM fact_sales f\r\n",
+        "JOIN dim_dates d\r\n",
+        "  ON f.date_sk = d.date_sk\r\n",
+        "GROUP BY d.year, d.month, d.month_name\r\n",
+        "ORDER BY d.year, d.month;"
+      ],
+      "catalog": "retail_analytics",
+      "schema": "gold"
+    },
+    {
+      "name": "5d3251ed",
+      "displayName": "Top Customers by Revenue",
+      "queryLines": [
+        "SELECT\r\n",
+        "  c.customer_id,\r\n",
+        "  c.name,\r\n",
+        "  SUM(f.line_total) AS total_revenue\r\n",
+        "FROM fact_sales f\r\n",
+        "JOIN dim_customers c\r\n",
+        "  ON f.customer_sk = c.customer_sk\r\n",
+        "GROUP BY c.customer_id, c.name\r\n",
+        "ORDER BY total_revenue DESC\t\r\n",
+        "LIMIT 20;"
+      ],
+      "catalog": "retail_analytics",
+      "schema": "gold"
+    },
+    {
+      "name": "99b54923",
+      "displayName": "Revenue by Sub Category",
+      "queryLines": [
+        "SELECT\r\n",
+        "  p.sub_category,\r\n",
+        "  round(SUM(f.line_total), 2) AS revenue\r\n",
+        "FROM fact_sales f\r\n",
+        "JOIN dim_products p\r\n",
+        "  ON f.product_sk = p.product_sk\r\n",
+        "GROUP BY p.sub_category\r\n",
+        "ORDER BY revenue DESC;"
+      ],
+      "catalog": "retail_analytics",
+      "schema": "gold"
+    },
+    {
+      "name": "aad4cccd",
+      "displayName": "Top Products by Revenue",
+      "queryLines": [
+        "SELECT\r\n",
+        "  p.product_id,\r\n",
+        "  p.category,\r\n",
+        "  p.sub_category,\r\n",
+        "  SUM(f.line_total) AS revenue\r\n",
+        "FROM fact_sales f\r\n",
+        "JOIN dim_products p\r\n",
+        "  ON f.product_sk = p.product_sk\r\n",
+        "GROUP BY p.product_id, p.category, p.sub_category\r\n",
+        "ORDER BY revenue DESC\r\n",
+        "LIMIT 10;"
+      ],
+      "catalog": "retail_analytics",
+      "schema": "gold"
+    },
+    {
+      "name": "2d5f0aea",
+      "displayName": "Refund Amount Over Time",
+      "queryLines": [
+        "SELECT\r\n",
+        "  d.year,\r\n",
+        "  d.month,\r\n",
+        "  d.month_name,\r\n",
+        "  concat(d.year, \" \", d.month_name) as month_year,\r\n",
+        "  round(abs(SUM(r.refund_amount)), 2) AS refund_amount\r\n",
+        "FROM fact_returns r\r\n",
+        "JOIN dim_dates d\r\n",
+        "  ON r.date_sk = d.date_sk\r\n",
+        "GROUP BY d.year, d.month, d.month_name\r\n",
+        "ORDER BY d.year, d.month;"
+      ],
+      "catalog": "retail_analytics",
+      "schema": "gold"
+    },
+    {
+      "name": "0bc9ad94",
+      "displayName": "Return Rate by Category",
+      "queryLines": [
+        "WITH sales_cat AS (\r\n",
+        "  SELECT\r\n",
+        "    p.category,\r\n",
+        "    SUM(s.quantity) AS qty_sold\r\n",
+        "  FROM fact_sales s\r\n",
+        "  JOIN dim_products p\r\n",
+        "    ON s.product_sk = p.product_sk\r\n",
+        "  GROUP BY p.category\r\n",
+        "),\r\n",
+        "returns_cat AS (\r\n",
+        "  SELECT\r\n",
+        "    p.category,\r\n",
+        "    SUM(r.quantity_returned) AS qty_returned\r\n",
+        "  FROM fact_returns r\r\n",
+        "  JOIN dim_products p\r\n",
+        "    ON r.product_sk = p.product_sk\r\n",
+        "  GROUP BY p.category\r\n",
+        ")\r\n",
+        "SELECT\r\n",
+        "  s.category,\r\n",
+        "  ROUND(\r\n",
+        "    COALESCE(r.qty_returned, 0) * 100.0 / s.qty_sold,\r\n",
+        "    2\r\n",
+        "  ) AS return_rate_pct\r\n",
+        "FROM sales_cat s\r\n",
+        "LEFT JOIN returns_cat r\r\n",
+        "  ON s.category = r.category\r\n",
+        "ORDER BY return_rate_pct DESC;"
+      ],
+      "catalog": "retail_analytics",
+      "schema": "gold"
+    },
+    {
+      "name": "5657edb3",
+      "displayName": "Top Returned Products",
+      "queryLines": [
+        "SELECT\r\n",
+        "  p.product_id,\r\n",
+        "  p.category,\r\n",
+        "  p.sub_category,\r\n",
+        "  SUM(r.quantity_returned) AS units_returned\r\n",
+        "FROM fact_returns r\r\n",
+        "JOIN dim_products p\r\n",
+        "  ON r.product_sk = p.product_sk\r\n",
+        "GROUP BY p.product_id, p.category, p.sub_category\r\n",
+        "ORDER BY units_returned DESC\r\n",
+        "LIMIT 10;"
+      ],
+      "catalog": "retail_analytics",
+      "schema": "gold"
+    },
+    {
+      "name": "1bc35cef",
+      "displayName": "Revenue by Discount",
+      "queryLines": [
+        "SELECT\r\n",
+        "  concat(discount * 100, \"%\") AS discount_pct,\r\n",
+        "  round(SUM(f.line_total), 2) AS revenue\r\n",
+        "FROM fact_sales f\r\n",
+        "JOIN dim_discounts d\r\n",
+        "  ON f.discount_sk = d.discount_sk\r\n",
+        "GROUP BY d.discount\r\n",
+        "ORDER BY d.discount;"
+      ],
+      "catalog": "retail_analytics",
+      "schema": "gold"
+    }
+  ],
+  "pages": [
+    {
+      "name": "defe607e",
+      "displayName": "Executive-overview",
+      "layout": [
+        {
+          "widget": {
+            "name": "what-is-total-revenue",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "05f997d8",
+                  "fields": [
+                    {
+                      "name": "total_revenue",
+                      "expression": "`total_revenue`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "total_revenue"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Total Revenue",
+                "showDescription": false,
+                "description": "",
+                "headerAlignment": "center"
+              }
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 0,
+            "width": 2,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "total-number-orders-placed",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "2daf9cb2",
+                  "fields": [
+                    {
+                      "name": "total_orders",
+                      "expression": "`total_orders`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "total_orders"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Total number of orders count",
+                "headerAlignment": "center"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "what-is-total-refund-amount",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3a75c8df",
+                  "fields": [
+                    {
+                      "name": "total_refunds",
+                      "expression": "`total_refunds`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "total_refunds"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Total Refund Amount",
+                "headerAlignment": "center"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 0,
+            "width": 1,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "16fb0424",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "257ee77a",
+                  "fields": [
+                    {
+                      "name": "units_sold",
+                      "expression": "`units_sold`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "units_sold"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Total Units Sold",
+                "headerAlignment": "center"
+              }
+            }
+          },
+          "position": {
+            "x": 1,
+            "y": 0,
+            "width": 1,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "a911e08a",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "f4f7e1e2",
+                  "fields": [
+                    {
+                      "name": "return_rate_pct",
+                      "expression": "`return_rate_pct`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "return_rate_pct"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Returns rate",
+                "headerAlignment": "center"
+              }
+            }
+          },
+          "position": {
+            "x": 5,
+            "y": 0,
+            "width": 1,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "revenue-over-time-monthly",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "10f06928",
+                  "fields": [
+                    {
+                      "name": "month_year",
+                      "expression": "`month_year`"
+                    },
+                    {
+                      "name": "revenue",
+                      "expression": "`revenue`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "month_year",
+                  "axis": {
+                    "hideLabels": false
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "custom-order",
+                      "orderedValues": [
+                        "2023 January",
+                        "2023 February",
+                        "2023 March",
+                        "2023 April",
+                        "2023 May",
+                        "2023 June",
+                        "2023 July",
+                        "2023 August",
+                        "2023 September",
+                        "2023 October",
+                        "2023 November",
+                        "2023 December",
+                        "2024 January",
+                        "2024 February",
+                        "2024 March",
+                        "2024 April",
+                        "2024 May",
+                        "2024 June",
+                        "2024 July",
+                        "2024 August",
+                        "2024 September",
+                        "2024 October",
+                        "2024 November",
+                        "2024 December",
+                        "2025 January",
+                        "2025 February",
+                        "2025 March"
+                      ]
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "revenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Monthly Revenue Summary",
+                "headerAlignment": "center"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 6,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "what-is-revenue-by-category",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "6c8901bc",
+                  "fields": [
+                    {
+                      "name": "category",
+                      "expression": "`category`"
+                    },
+                    {
+                      "name": "sum(revenue)",
+                      "expression": "SUM(`revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sum(revenue)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "category",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "color": {
+                  "fieldName": "category",
+                  "legend": {
+                    "hideTitle": true,
+                    "hide": true
+                  },
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Revenue by Category"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 11,
+            "width": 3,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "1f3cdad4",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "f663b833",
+                  "fields": [
+                    {
+                      "name": "country",
+                      "expression": "`country`"
+                    },
+                    {
+                      "name": "sum(revenue)",
+                      "expression": "SUM(`revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "country",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(revenue)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "country",
+                  "legend": {
+                    "hideTitle": true,
+                    "hide": true
+                  },
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": " Revenue by Country"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 11,
+            "width": 3,
+            "height": 7
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
+    },
+    {
+      "name": "a49b081e",
+      "displayName": "Sales-Performance",
+      "layout": [
+        {
+          "widget": {
+            "name": "monthly-revenue-summary",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "10f06928",
+                  "fields": [
+                    {
+                      "name": "month_year",
+                      "expression": "`month_year`"
+                    },
+                    {
+                      "name": "revenue",
+                      "expression": "`revenue`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "month_year",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "custom-order",
+                      "orderedValues": [
+                        "2023 January",
+                        "2023 February",
+                        "2023 March",
+                        "2023 April",
+                        "2023 May",
+                        "2023 July",
+                        "2023 June",
+                        "2023 August",
+                        "2023 September",
+                        "2023 October",
+                        "2023 November",
+                        "2023 December",
+                        "2024 January",
+                        "2024 February",
+                        "2024 March",
+                        "2024 April",
+                        "2024 May",
+                        "2024 June",
+                        "2024 July",
+                        "2024 August",
+                        "2024 September",
+                        "2024 October",
+                        "2024 November",
+                        "2024 December",
+                        "2025 January",
+                        "2025 February",
+                        "2025 March"
+                      ]
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "revenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Monthly Revenue Summary"
+              },
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 3
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 3
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 4
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 5
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 6
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 7
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 8
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 9
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 10
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "monthly-units-sold",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "15b3e1a1",
+                  "fields": [
+                    {
+                      "name": "month_year",
+                      "expression": "`month_year`"
+                    },
+                    {
+                      "name": "units_sold",
+                      "expression": "`units_sold`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "month_year",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "custom-order",
+                      "orderedValues": [
+                        "2023 January",
+                        "2023 February",
+                        "2023 March",
+                        "2023 April",
+                        "2023 May",
+                        "2023 June",
+                        "2023 July",
+                        "2023 August",
+                        "2023 September",
+                        "2023 October",
+                        "2023 November",
+                        "2023 December",
+                        "2024 January",
+                        "2024 February",
+                        "2024 March",
+                        "2024 April",
+                        "2024 May",
+                        "2024 July",
+                        "2024 June",
+                        "2024 August",
+                        "2024 September",
+                        "2024 October",
+                        "2024 November",
+                        "2024 December",
+                        "2025 January",
+                        "2025 February",
+                        "2025 March"
+                      ]
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "units_sold",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Monthly Units Sold"
+              },
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 8
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 3
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 4
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 5
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 6
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 7
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 8
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 9
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 10
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 3,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "global-revenue-insights-by-country",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "f663b833",
+                  "fields": [
+                    {
+                      "name": "country",
+                      "expression": "`country`"
+                    },
+                    {
+                      "name": "revenue",
+                      "expression": "`revenue`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "country",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "revenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "country",
+                  "legend": {
+                    "hideTitle": true,
+                    "hide": true
+                  },
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Revenue by Country"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "top-customers-by-revenue",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "5d3251ed",
+                  "fields": [
+                    {
+                      "name": "customer_id",
+                      "expression": "`customer_id`"
+                    },
+                    {
+                      "name": "name",
+                      "expression": "`name`"
+                    },
+                    {
+                      "name": "total_revenue",
+                      "expression": "`total_revenue`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 1,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "customer_id",
+                    "numberFormat": "0",
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "imageUrlTemplate": "{{ @ }}",
+                    "imageTitleTemplate": "{{ @ }}",
+                    "imageWidth": "",
+                    "imageHeight": "",
+                    "linkUrlTemplate": "{{ @ }}",
+                    "linkTextTemplate": "{{ @ }}",
+                    "linkTitleTemplate": "{{ @ }}",
+                    "linkOpenInNewTab": true,
+                    "type": "integer",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 100000,
+                    "title": "customer_id",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false,
+                    "highlightLinks": false,
+                    "useMonospaceFont": false,
+                    "preserveWhitespace": false
+                  },
+                  {
+                    "fieldName": "name",
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "imageUrlTemplate": "{{ @ }}",
+                    "imageTitleTemplate": "{{ @ }}",
+                    "imageWidth": "",
+                    "imageHeight": "",
+                    "linkUrlTemplate": "{{ @ }}",
+                    "linkTextTemplate": "{{ @ }}",
+                    "linkTitleTemplate": "{{ @ }}",
+                    "linkOpenInNewTab": true,
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 100001,
+                    "title": "name",
+                    "allowSearch": false,
+                    "alignContent": "center",
+                    "allowHTML": false,
+                    "highlightLinks": false,
+                    "useMonospaceFont": false,
+                    "preserveWhitespace": false
+                  },
+                  {
+                    "fieldName": "total_revenue",
+                    "numberFormat": "0.00",
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "imageUrlTemplate": "{{ @ }}",
+                    "imageTitleTemplate": "{{ @ }}",
+                    "imageWidth": "",
+                    "imageHeight": "",
+                    "linkUrlTemplate": "{{ @ }}",
+                    "linkTextTemplate": "{{ @ }}",
+                    "linkTitleTemplate": "{{ @ }}",
+                    "linkOpenInNewTab": true,
+                    "type": "float",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 100002,
+                    "title": "total_revenue",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false,
+                    "highlightLinks": false,
+                    "useMonospaceFont": false,
+                    "preserveWhitespace": false
+                  }
+                ]
+              },
+              "invisibleColumns": [],
+              "allowHTMLByDefault": false,
+              "itemsPerPage": 20,
+              "paginationSize": "default",
+              "condensed": true,
+              "withRowNumber": false,
+              "firstNFrozenColumns": 3,
+              "frame": {
+                "showTitle": true,
+                "title": "Top Customers by Revenue"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 12,
+            "width": 6,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
+    },
+    {
+      "name": "f0b2f571",
+      "displayName": "Product & Category Insights",
+      "layout": [
+        {
+          "widget": {
+            "name": "revenue-by-category",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "6c8901bc",
+                  "fields": [
+                    {
+                      "name": "category",
+                      "expression": "`category`"
+                    },
+                    {
+                      "name": "revenue",
+                      "expression": "`revenue`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "revenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "category",
+                  "axis": {
+                    "hideTitle": true,
+                    "hideLabels": false
+                  },
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "color": {
+                  "fieldName": "category",
+                  "legend": {
+                    "hideTitle": true,
+                    "hide": true
+                  },
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Revenue by Category"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "revenue-by-sub-category",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "99b54923",
+                  "fields": [
+                    {
+                      "name": "sub_category",
+                      "expression": "`sub_category`"
+                    },
+                    {
+                      "name": "revenue",
+                      "expression": "`revenue`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sub_category",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "revenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "sub_category",
+                  "legend": {
+                    "hide": true,
+                    "hideTitle": true
+                  },
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Revenue by Sub Category"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "top-10-products-revenue",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "aad4cccd",
+                  "fields": [
+                    {
+                      "name": "product_id",
+                      "expression": "`product_id`"
+                    },
+                    {
+                      "name": "revenue",
+                      "expression": "`revenue`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "product_id",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "revenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "product_id",
+                  "legend": {
+                    "hide": true
+                  },
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Top Products by Revenue"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 12,
+            "width": 6,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
+    },
+    {
+      "name": "d6a0d117",
+      "displayName": "Returns Analysis",
+      "layout": [
+        {
+          "widget": {
+            "name": "total-refund-analysis",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3a75c8df",
+                  "fields": [
+                    {
+                      "name": "sum(total_refunds)",
+                      "expression": "SUM(`total_refunds`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(total_refunds)"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Total Refund Amount",
+                "headerAlignment": "center"
+              }
+            }
+          },
+          "position": {
+            "x": 1,
+            "y": 0,
+            "width": 2,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "sales-return-percentage-analysis",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "f4f7e1e2",
+                  "fields": [
+                    {
+                      "name": "return_rate_pct",
+                      "expression": "`return_rate_pct`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "return_rate_pct"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Returns rate",
+                "headerAlignment": "center"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 2,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "refund-amount-over-time",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "2d5f0aea",
+                  "fields": [
+                    {
+                      "name": "month_year",
+                      "expression": "`month_year`"
+                    },
+                    {
+                      "name": "refund_amount",
+                      "expression": "`refund_amount`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "month_year",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "custom-order",
+                      "orderedValues": [
+                        "2023 January",
+                        "2023 February",
+                        "2023 March",
+                        "2023 April",
+                        "2023 May",
+                        "2023 June",
+                        "2023 July",
+                        "2023 August",
+                        "2023 September",
+                        "2023 October",
+                        "2023 November",
+                        "2023 December",
+                        "2024 January",
+                        "2024 February",
+                        "2024 March",
+                        "2024 April",
+                        "2024 May",
+                        "2024 June",
+                        "2024 July",
+                        "2024 August",
+                        "2024 September",
+                        "2024 October",
+                        "2024 November",
+                        "2024 December",
+                        "2025 January",
+                        "2025 February",
+                        "2025 March"
+                      ]
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "refund_amount",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Refund Amount Over Time"
+              },
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 10
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 3
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 4
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 5
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 6
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 7
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 8
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 9
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 10
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "return-rate-by-category",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "0bc9ad94",
+                  "fields": [
+                    {
+                      "name": "category",
+                      "expression": "`category`"
+                    },
+                    {
+                      "name": "return_rate_pct",
+                      "expression": "`return_rate_pct`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "category",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "return_rate_pct",
+                  "axis": {
+                    "title": "return_rate_percentage"
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "category",
+                  "legend": {
+                    "hideTitle": true,
+                    "hide": true
+                  },
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Return Rate by Category"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 9,
+            "width": 3,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "f0c21f8d",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "5657edb3",
+                  "fields": [
+                    {
+                      "name": "category",
+                      "expression": "`category`"
+                    },
+                    {
+                      "name": "product_id",
+                      "expression": "`product_id`"
+                    },
+                    {
+                      "name": "units_returned",
+                      "expression": "`units_returned`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "product_id",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "units_returned",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "category",
+                  "legend": {
+                    "hideTitle": true
+                  },
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Top Returned Products"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 9,
+            "width": 3,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
+    },
+    {
+      "name": "4716773b",
+      "displayName": "Global Filters",
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS"
+    },
+    {
+      "name": "1ae8f76d",
+      "displayName": "Discount Effectiveness",
+      "layout": [
+        {
+          "widget": {
+            "name": "revenue-by-discount",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "1bc35cef",
+                  "fields": [
+                    {
+                      "name": "discount_pct",
+                      "expression": "`discount_pct`"
+                    },
+                    {
+                      "name": "revenue",
+                      "expression": "`revenue`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "discount_pct",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "revenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "discount_pct",
+                  "legend": {
+                    "hideTitle": true,
+                    "hide": true
+                  },
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Revenue by Discount"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 12
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "canvasBackgroundColor": {
+        "light": "#FAFAFB",
+        "dark": "#1F272D"
+      },
+      "widgetBackgroundColor": {
+        "light": "#FFFFFF",
+        "dark": "#11171C"
+      },
+      "fontColor": {
+        "light": "#11171C",
+        "dark": "#E8ECF0"
+      },
+      "selectionColor": {
+        "light": "#2272B4",
+        "dark": "#8ACAFF"
+      },
+      "visualizationColors": [
+        "#077A9D",
+        "#FFAB00",
+        "#00A972",
+        "#FF3621",
+        "#8BCAE7",
+        "#AB4057",
+        "#99DDB4",
+        "#FCA4A1",
+        "#919191",
+        "#BF7080"
+      ],
+      "widgetHeaderAlignment": "LEFT"
+    },
+    "applyModeEnabled": false
+  }
+}
