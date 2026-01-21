@@ -69,6 +69,7 @@ notebooks/04_gold/fact_returns
 ## Step 6: Consumption
 - Databricks SQL queries
 - Dashboard visualizations
+- **Run** the file `notebooks/04_gold/gold_views`
 - Click `sql/dashboard/Retail-Analytics-Dashboard.lvdash.json` it will automatically redirect you to SQL Dashboard Page
 - Refer `sql/visualizations/` for sample visuals
 - Refer `sql/dashboard/README.md` to know about the used KPI metrics in SQL Dashboard
