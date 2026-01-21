@@ -5,8 +5,8 @@
       "displayName": "Total number of orders count",
       "queryLines": [
         "SELECT\r\n",
-        "  COUNT(DISTINCT invoice_id) AS total_orders\r\n",
-        "FROM fact_sales;"
+        " *\r\n",
+        "FROM vw_total_orders_count;"
       ],
       "catalog": "retail_analytics",
       "schema": "gold"
@@ -16,8 +16,8 @@
       "displayName": "Total Refund Amount",
       "queryLines": [
         "SELECT\r\n",
-        "  abs(round(SUM(refund_amount), 2)) AS total_refunds\r\n",
-        "FROM fact_returns;"
+        "  *\r\n",
+        "FROM vw_total_refund_amount;"
       ],
       "catalog": "retail_analytics",
       "schema": "gold"
@@ -27,8 +27,8 @@
       "displayName": "Total Units Sold",
       "queryLines": [
         "SELECT\r\n",
-        "  sum(quantity) AS units_sold\r\n",
-        "FROM fact_sales;"
+        "  *\r\n",
+        "FROM vw_total_units_sold;"
       ],
       "catalog": "retail_analytics",
       "schema": "gold"
@@ -38,8 +38,8 @@
       "displayName": "Total Revenue",
       "queryLines": [
         "SELECT\r\n",
-        "  round(SUM(line_total), 2) AS total_revenue\r\n",
-        "FROM fact_sales;"
+        "  *\r\n",
+        "FROM vw_total_revenue;"
       ],
       "catalog": "retail_analytics",
       "schema": "gold"
@@ -48,20 +48,9 @@
       "name": "f4f7e1e2",
       "displayName": "Returns rate",
       "queryLines": [
-        "WITH sold AS (\r\n",
-        "  SELECT SUM(quantity) AS total_sold\r\n",
-        "  FROM fact_sales\r\n",
-        "),\r\n",
-        "returned AS (\r\n",
-        "  SELECT SUM(quantity_returned) AS total_returned\r\n",
-        "  FROM fact_returns\r\n",
-        ")\r\n",
         "SELECT\r\n",
-        "  concat(ROUND(\r\n",
-        "    returned.total_returned * 100.0 / sold.total_sold,\r\n",
-        "    2\r\n",
-        "  ), \"%\") AS return_rate_pct\r\n",
-        "FROM sold, returned;\r\n"
+        "  *\r\n",
+        "FROM vw_returns_rate;\r\n"
       ],
       "catalog": "retail_analytics",
       "schema": "gold"
@@ -71,16 +60,8 @@
       "displayName": "Monthly Revenue Summary",
       "queryLines": [
         "SELECT\r\n",
-        "  d.year,\r\n",
-        "  d.month,\r\n",
-        "  d.month_name,\r\n",
-        "  concat(d.year,' ', d.month_name) AS month_year, \r\n",
-        "  round(SUM(f.line_total), 2) AS revenue\r\n",
-        "FROM fact_sales f\r\n",
-        "JOIN dim_dates d\r\n",
-        "  ON f.date_sk = d.date_sk\r\n",
-        "GROUP BY d.year, d.month, d.month_name\r\n",
-        "ORDER BY d.year, d.month;"
+        " *\r\n",
+        "FROM vw_monthly_revenue"
       ],
       "catalog": "retail_analytics",
       "schema": "gold"
@@ -90,13 +71,8 @@
       "displayName": "Revenue by Category",
       "queryLines": [
         "SELECT\r\n",
-        "  p.category,\r\n",
-        "  round(SUM(f.line_total), 2) AS revenue\r\n",
-        "FROM fact_sales f\r\n",
-        "JOIN dim_products p\r\n",
-        "  ON f.product_sk = p.product_sk\r\n",
-        "GROUP BY p.category\r\n",
-        "ORDER BY revenue DESC;"
+        "  *\r\n",
+        "FROM vw_revenue_category"
       ],
       "catalog": "retail_analytics",
       "schema": "gold"
@@ -106,13 +82,8 @@
       "displayName": "Revenue by Country",
       "queryLines": [
         "SELECT\r\n",
-        "  s.country,\r\n",
-        "  round(SUM(f.line_total), 2) AS revenue\r\n",
-        "FROM fact_sales f\r\n",
-        "JOIN dim_stores s\r\n",
-        "  ON f.store_sk = s.store_sk\r\n",
-        "GROUP BY s.country\r\n",
-        "ORDER BY revenue DESC;"
+        "  *\r\n",
+        "FROM vw_revenue_country"
       ],
       "catalog": "retail_analytics",
       "schema": "gold"
@@ -122,16 +93,8 @@
       "displayName": "Monthly Units Sold",
       "queryLines": [
         "SELECT\r\n",
-        "  d.year,\r\n",
-        "  d.month,\r\n",
-        "  d.month_name,\r\n",
-        "  concat(d.year,' ', d.month_name) AS month_year, \r\n",
-        "  SUM(f.quantity) AS units_sold\r\n",
-        "FROM fact_sales f\r\n",
-        "JOIN dim_dates d\r\n",
-        "  ON f.date_sk = d.date_sk\r\n",
-        "GROUP BY d.year, d.month, d.month_name\r\n",
-        "ORDER BY d.year, d.month;"
+        "  *\r\n",
+        "FROM vw_monthly_units_sold"
       ],
       "catalog": "retail_analytics",
       "schema": "gold"
@@ -141,15 +104,8 @@
       "displayName": "Top Customers by Revenue",
       "queryLines": [
         "SELECT\r\n",
-        "  c.customer_id,\r\n",
-        "  c.name,\r\n",
-        "  SUM(f.line_total) AS total_revenue\r\n",
-        "FROM fact_sales f\r\n",
-        "JOIN dim_customers c\r\n",
-        "  ON f.customer_sk = c.customer_sk\r\n",
-        "GROUP BY c.customer_id, c.name\r\n",
-        "ORDER BY total_revenue DESC\t\r\n",
-        "LIMIT 20;"
+        "  *\r\n",
+        "FROM vw_top_customers_revenue\r\n"
       ],
       "catalog": "retail_analytics",
       "schema": "gold"
@@ -159,13 +115,8 @@
       "displayName": "Revenue by Sub Category",
       "queryLines": [
         "SELECT\r\n",
-        "  p.sub_category,\r\n",
-        "  round(SUM(f.line_total), 2) AS revenue\r\n",
-        "FROM fact_sales f\r\n",
-        "JOIN dim_products p\r\n",
-        "  ON f.product_sk = p.product_sk\r\n",
-        "GROUP BY p.sub_category\r\n",
-        "ORDER BY revenue DESC;"
+        "  *\r\n",
+        "FROM vw_revenue_sub_category"
       ],
       "catalog": "retail_analytics",
       "schema": "gold"
@@ -175,16 +126,8 @@
       "displayName": "Top Products by Revenue",
       "queryLines": [
         "SELECT\r\n",
-        "  p.product_id,\r\n",
-        "  p.category,\r\n",
-        "  p.sub_category,\r\n",
-        "  SUM(f.line_total) AS revenue\r\n",
-        "FROM fact_sales f\r\n",
-        "JOIN dim_products p\r\n",
-        "  ON f.product_sk = p.product_sk\r\n",
-        "GROUP BY p.product_id, p.category, p.sub_category\r\n",
-        "ORDER BY revenue DESC\r\n",
-        "LIMIT 10;"
+        "  *\r\n",
+        "FROM vw_top_products_revenue"
       ],
       "catalog": "retail_analytics",
       "schema": "gold"
@@ -194,16 +137,8 @@
       "displayName": "Refund Amount Over Time",
       "queryLines": [
         "SELECT\r\n",
-        "  d.year,\r\n",
-        "  d.month,\r\n",
-        "  d.month_name,\r\n",
-        "  concat(d.year, \" \", d.month_name) as month_year,\r\n",
-        "  round(abs(SUM(r.refund_amount)), 2) AS refund_amount\r\n",
-        "FROM fact_returns r\r\n",
-        "JOIN dim_dates d\r\n",
-        "  ON r.date_sk = d.date_sk\r\n",
-        "GROUP BY d.year, d.month, d.month_name\r\n",
-        "ORDER BY d.year, d.month;"
+        "  *\r\n",
+        "FROM vw_monthly_refund_amount"
       ],
       "catalog": "retail_analytics",
       "schema": "gold"
@@ -212,34 +147,9 @@
       "name": "0bc9ad94",
       "displayName": "Return Rate by Category",
       "queryLines": [
-        "WITH sales_cat AS (\r\n",
-        "  SELECT\r\n",
-        "    p.category,\r\n",
-        "    SUM(s.quantity) AS qty_sold\r\n",
-        "  FROM fact_sales s\r\n",
-        "  JOIN dim_products p\r\n",
-        "    ON s.product_sk = p.product_sk\r\n",
-        "  GROUP BY p.category\r\n",
-        "),\r\n",
-        "returns_cat AS (\r\n",
-        "  SELECT\r\n",
-        "    p.category,\r\n",
-        "    SUM(r.quantity_returned) AS qty_returned\r\n",
-        "  FROM fact_returns r\r\n",
-        "  JOIN dim_products p\r\n",
-        "    ON r.product_sk = p.product_sk\r\n",
-        "  GROUP BY p.category\r\n",
-        ")\r\n",
-        "SELECT\r\n",
-        "  s.category,\r\n",
-        "  ROUND(\r\n",
-        "    COALESCE(r.qty_returned, 0) * 100.0 / s.qty_sold,\r\n",
-        "    2\r\n",
-        "  ) AS return_rate_pct\r\n",
-        "FROM sales_cat s\r\n",
-        "LEFT JOIN returns_cat r\r\n",
-        "  ON s.category = r.category\r\n",
-        "ORDER BY return_rate_pct DESC;"
+        "SELECT \r\n",
+        "  *\r\n",
+        "FROM vw_return_rate_category\r\n"
       ],
       "catalog": "retail_analytics",
       "schema": "gold"
@@ -249,16 +159,8 @@
       "displayName": "Top Returned Products",
       "queryLines": [
         "SELECT\r\n",
-        "  p.product_id,\r\n",
-        "  p.category,\r\n",
-        "  p.sub_category,\r\n",
-        "  SUM(r.quantity_returned) AS units_returned\r\n",
-        "FROM fact_returns r\r\n",
-        "JOIN dim_products p\r\n",
-        "  ON r.product_sk = p.product_sk\r\n",
-        "GROUP BY p.product_id, p.category, p.sub_category\r\n",
-        "ORDER BY units_returned DESC\r\n",
-        "LIMIT 10;"
+        "  *\r\n",
+        "FROM vw_top_returned_products"
       ],
       "catalog": "retail_analytics",
       "schema": "gold"
@@ -268,13 +170,8 @@
       "displayName": "Revenue by Discount",
       "queryLines": [
         "SELECT\r\n",
-        "  concat(discount * 100, \"%\") AS discount_pct,\r\n",
-        "  round(SUM(f.line_total), 2) AS revenue\r\n",
-        "FROM fact_sales f\r\n",
-        "JOIN dim_discounts d\r\n",
-        "  ON f.discount_sk = d.discount_sk\r\n",
-        "GROUP BY d.discount\r\n",
-        "ORDER BY d.discount;"
+        "  *\r\n",
+        "FROM vw_revenue_discount"
       ],
       "catalog": "retail_analytics",
       "schema": "gold"
